@@ -1,0 +1,30 @@
+** 
+
+go run main.go json-parser --json `
+'{
+  "accountId": "193048895737",
+  "architecture": "x86_64",
+  "availabilityZone": "us-west-2-lax-1a",
+  "billingProducts": [
+    "bp-6ba54002"
+  ],
+  "devpayProductCodes": null,
+  "imageId": "ami-04adeb9ef364bcb6a",
+  "instanceId": "i-05320ff66eac8bb54",
+  "instanceType": "c5.xlarge",
+  "kernelId": null,
+  "marketplaceProductCodes": null,
+  "pendingTime": "2023-04-27T03:08:29Z",
+  "privateIp": "172.1.175.18",
+  "ramdiskId": null,
+  "region": "us-west-2",
+  "version": "2017-09-30"
+}'
+
+** 
+
+go run main.go json-parser --json '{
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+}'
