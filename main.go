@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"string"
 
 	"github.com/spf13/cobra"
 )
@@ -15,7 +14,7 @@ func main() {
 		Short: "A brief description of your application",
 		Long:  "A longer description of your application",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(string(myarg))
+			fmt.Println(myarg)
 		},
 	}
 
