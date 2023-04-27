@@ -15,7 +15,7 @@ func main() {
 		Short: "A brief description of your application",
 		Long:  "A longer description of your application",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println(strings.TrimSpace(myarg))
+			fmt.Println(string(myarg))
 		},
 	}
 
