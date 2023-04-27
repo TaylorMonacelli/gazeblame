@@ -1,50 +1,27 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
 
 func main() {
+	var myarg string
+
 	rootCmd := &cobra.Command{
-		Use:   "json-parser",
-		Short: "A JSON parser using Cobra",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			var jsonObj interface{}
-
-			jsonFile, _ := cmd.Flags().GetString("file")
-			if jsonFile != "" {
-				jsonBytes, err := ioutil.ReadFile(jsonFile)
-				if err != nil {
-					return err
-				}
-
-				err = json.Unmarshal(jsonBytes, &jsonObj)
-				if err != nil {
-					return err
-				}
-			} else {
-				jsonStr, _ := cmd.Flags().GetString("json")
-
-				err := json.Unmarshal([]byte(jsonStr), &jsonObj)
-				if err != nil {
-					return err
-				}
-			}
-
-			fmt.Println(jsonObj)
-			return nil
+		Use:   "gazeblame",
+		Short: "A brief description of your application",
+		Long:  "A longer description of your application",
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println(strings.TrimSpace(myarg))
 		},
 	}
 
-	rootCmd.Flags().String("json", "", "JSON string")
-	rootCmd.Flags().String("file", "", "JSON file path")
+	rootCmd.PersistentFlags().StringVar(&myarg, "jsblob", "", "A multiline string argument")
 
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 	}
 }
