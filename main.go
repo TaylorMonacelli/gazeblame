@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"strings"
+	"io/ioutil"
 
 	"github.com/spf13/cobra"
 )
@@ -13,19 +13,26 @@ func main() {
 		Use:   "json-parser",
 		Short: "A JSON parser using Cobra",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			jsonStr, err := cmd.Flags().GetString("json")
-			if err != nil {
-				return err
-			}
-
-			// Replace newlines with spaces
-			jsonStr = strings.ReplaceAll(jsonStr, "\r\n", " ")
-			jsonStr = strings.ReplaceAll(jsonStr, "\n", " ")
-
 			var jsonObj interface{}
-			err = json.Unmarshal([]byte(jsonStr), &jsonObj)
-			if err != nil {
-				return err
+
+			jsonFile, _ := cmd.Flags().GetString("file")
+			if jsonFile != "" {
+				jsonBytes, err := ioutil.ReadFile(jsonFile)
+				if err != nil {
+					return err
+				}
+
+				err = json.Unmarshal(jsonBytes, &jsonObj)
+				if err != nil {
+					return err
+				}
+			} else {
+				jsonStr, _ := cmd.Flags().GetString("json")
+
+				err := json.Unmarshal([]byte(jsonStr), &jsonObj)
+				if err != nil {
+					return err
+				}
 			}
 
 			fmt.Println(jsonObj)
@@ -33,7 +40,8 @@ func main() {
 		},
 	}
 
-	rootCmd.Flags().String("json", "", "Multiline JSON string")
+	rootCmd.Flags().String("json", "", "JSON string")
+	rootCmd.Flags().String("file", "", "JSON file path")
 
 	err := rootCmd.Execute()
 	if err != nil {
